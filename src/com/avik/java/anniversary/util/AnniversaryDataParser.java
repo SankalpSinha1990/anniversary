@@ -19,7 +19,7 @@ public class AnniversaryDataParser {
 		
 		try {
 			
-			FileInputStream inputFile = new FileInputStream(new File("C:\\javalab\\anniversary\\data\\"+"anniversary.xls"));
+			FileInputStream inputFile = new FileInputStream(new File("C:\\development\\anniversary\\data\\"+"anniversary.xls"));
 			
 			HSSFWorkbook workbook = new HSSFWorkbook(inputFile);
 			HSSFSheet worksheet = workbook.getSheet("anniversary");
