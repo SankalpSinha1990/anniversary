@@ -6,7 +6,7 @@ public class ImageSelector {
 	
 	private int startFileNum = 1;
 	private int endFileNum = 6;
-	private String filePath = "C:\\javalab\\anniversary\\images\\";
+	private String filePath = "C:\\development\\anniversary\\images\\";
 	
 	public ImageSelector() {
 		
