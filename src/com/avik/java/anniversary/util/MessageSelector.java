@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 
-public class MessageSelector {
+import com.avik.java.anniversary.constants.AnniversaryConstants;
+
+public class MessageSelector extends AbstractSelector {
 
 	private int randInt(int min, int max) {
 	
@@ -19,24 +21,41 @@ public class MessageSelector {
 	
 	public String getRandomMessage() {
 		
+		String applicationHome = super.getApplicationHome();
 		String message = "";
-		String filepath = "C:\\devlopment\\anniversary\\data\\";
-		Properties prop = new Properties();
-		InputStream input = null;
+		String dataFileLocation = "";
+		Properties applicationProp = new Properties();
+		Properties messageProp = new Properties();
+		InputStream inputDataLocation = null;
+		InputStream messageInput = null;
 		
 		try {
 			
-			input = new FileInputStream(filepath+"messages.properties");
-			prop.load(input);
-			String msgIndex = new Integer(randInt(1, prop.size())).toString();
-			message = prop.getProperty(msgIndex);
+			inputDataLocation = new FileInputStream(applicationHome+"application.properties");
+			applicationProp.load(inputDataLocation);
+			
+			if(applicationProp.getProperty(AnniversaryConstants.DEPLOYMENT_TYPE).equalsIgnoreCase("local")) {
+				dataFileLocation = applicationProp.getProperty(AnniversaryConstants.LOCAL_DATA_DIR);
+			} else if(applicationProp.getProperty(AnniversaryConstants.DEPLOYMENT_TYPE).equalsIgnoreCase("server")) {
+				dataFileLocation = applicationProp.getProperty(AnniversaryConstants.SERVER_DATA_DIR);
+			} else {
+				System.out.println("[ERROR] Specify correct deployment type in application.properties");
+			}
+			
+			
+			
+			messageInput = new FileInputStream(dataFileLocation+"messages.properties");
+			messageProp.load(messageInput);
+			String msgIndex = new Integer(randInt(1, messageProp.size())).toString();
+			message = messageProp.getProperty(msgIndex);
 			
 		}catch(IOException e) {
 			e.printStackTrace();
 		}finally {
-			if(input!=null) {
+			if(messageInput!=null&&inputDataLocation!=null) {
 				try{
-					input.close();
+					messageInput.close();
+					inputDataLocation.close();
 				}catch(IOException e) {
 					e.printStackTrace();
 				}
