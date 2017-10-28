@@ -2,13 +2,16 @@ package com.avik.java.anniversary.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+import com.avik.java.anniversary.constants.AnniversaryConstants;
 import com.avik.java.anniversary.messaging.MessageSender;
 import com.avik.java.anniversary.model.AnniversaryMessage;
 import com.avik.java.anniversary.model.Person;
@@ -17,11 +20,25 @@ public class AnniversaryDataParser {
 	
 	public static void main(String[] args) {
 		
+		String applicationHome = AbstractSelector.getApplicationHome();
+		
+		Properties prop = new Properties();
+		InputStream input = null;
+		
 		try {
 			
-			FileInputStream inputFile = new FileInputStream(new File("C:\\devlopment\\anniversary\\data\\"+"anniversary.xls"));
-			
-			HSSFWorkbook workbook = new HSSFWorkbook(inputFile);
+			input = new FileInputStream(applicationHome+"application.properties");
+			prop.load(input);
+			String dataFileLocation = "";
+			if(prop.getProperty(AnniversaryConstants.DEPLOYMENT_TYPE).equalsIgnoreCase("local")) {
+				dataFileLocation = prop.getProperty(AnniversaryConstants.LOCAL_DATA_DIR);
+			} else if(prop.getProperty(AnniversaryConstants.DEPLOYMENT_TYPE).equalsIgnoreCase("server")) {
+				dataFileLocation = prop.getProperty(AnniversaryConstants.SERVER_DATA_DIR);
+			} else {
+				System.out.println("[ERROR] Specify correct deployment type in application.properties");
+			}
+			InputStream dataInputFile = new FileInputStream(new File(dataFileLocation+"anniversary.xls"));
+			HSSFWorkbook workbook = new HSSFWorkbook(dataInputFile);
 			HSSFSheet worksheet = workbook.getSheet("anniversary");
 			
 			Iterator<Row> rowIterator = worksheet.iterator();
@@ -68,7 +85,8 @@ public class AnniversaryDataParser {
 				System.out.println("------------------------------------------------------------------");
 			}
 			workbook.close();
-			inputFile.close();
+			dataInputFile.close();
+			input.close();
 			
 		} catch(Exception e) {
 			e.printStackTrace();
