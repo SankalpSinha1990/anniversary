@@ -23,10 +23,7 @@ import com.avik.java.anniversary.util.ImageSelector;
 
 
 public class MessageSender {
-	
-	public MessageSender() {
-		
-	}
+
 	
 	public void sendMessage(AnniversaryMessage message) {
 	
