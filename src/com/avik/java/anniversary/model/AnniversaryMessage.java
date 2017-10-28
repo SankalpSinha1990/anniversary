@@ -1,6 +1,7 @@
 package com.avik.java.anniversary.model;
 
 import com.avik.java.anniversary.util.ImageSelector;
+import com.avik.java.anniversary.util.MessageSelector;
 
 public class AnniversaryMessage {
 	
@@ -23,8 +24,10 @@ public class AnniversaryMessage {
 		
 		String content = "";
 		String name = person.getNickname();
-		String strimage = new ImageSelector().getRandomImageFileName();
-		System.out.println("Image selected: "+strimage);
+		String randomImage = new ImageSelector().getRandomImageFileName();
+		String randomContent = new MessageSelector().getRandomMessage();
+		System.out.println("Image selected: "+randomImage);
+		System.out.println("Content selected: "+randomContent);
 		
 		content = "<html>"
 			 		+"<body>"
@@ -36,17 +39,25 @@ public class AnniversaryMessage {
 		 						+"<td><font color=\"#C70039\"><b>Many Many Happy Returns of the Day "+name+" !!!"+"</b></font>"
 		 						+"</td>"
 		 					+"</tr>"
+		 					+"<tr>"
+ 								+"<td>&nbsp;&nbsp;&nbsp;&nbsp;</font>"
+ 								+"</td>"
+ 							+"</tr>"
+		 					+"<tr>"
+	 							+"<td><font color=\"#2471A3\"><b>"+randomContent+"</b></font>"
+	 							+"</td>"
+	 						+"</tr>"
 			 			+"</table>"
 		 				+"<br>"
 			 			
 	 					+"<br>"
 	 					+"<table>"
 	 						+"<tr>"
-	 							+"<td>Best wishes,</td>"
+	 							+"<td>Warm Regards,</td>"
 	 						+"</tr>"
 	 						+"<tr>"
  								+"<td>"
- 									+"DevOps TestLab Team - Gurgaon"
+ 									+"Team Gurgaon"
  								+"</td>"
  							+"</tr>"
  						+"</table>"
